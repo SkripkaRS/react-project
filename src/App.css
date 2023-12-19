@@ -2,6 +2,6 @@
     text-align: center;
 }
 
-div {
-    margin-top: 1rem;
+.course__container {
+    display: flex;
 }
