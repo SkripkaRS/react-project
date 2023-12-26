@@ -1,14 +1,13 @@
 import "./App.css";
+import Counter from "./components/Counter/Counter";
 import Course from "./components/Course/Course.jsx";
 import { CourseInfo, courses } from "./Types.ts";
 
 function App(): React.FC {
   return (
     <div>
-      <div className="course__container">
-        {courses.map((item) => (
-          <Course key={item.id} data={item} />
-        ))}
+      <div>
+        <Counter />
       </div>
     </div>
   );
