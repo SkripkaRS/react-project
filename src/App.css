@@ -5,3 +5,11 @@
 .course__container {
     display: flex;
 }
+
+a {
+    padding: 8px;
+}
+
+.active {
+    color: red;
+}

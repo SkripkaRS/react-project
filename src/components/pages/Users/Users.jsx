@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import User from "../User/User";
 import "./Styles.css";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -28,24 +28,20 @@ const Users = () => {
     getUsers();
   }, []);
 
-  const LoadingComponent = () => {
-    return <div>Loading...</div>;
-  };
+  if (isLoading) {
+    return <h1>Loading ...</h1>;
+  }
 
-  const UsersComponent = () => {
-    return (
-      <div>
-        <h1>List of users:</h1>
-        <div className="users-container">
-          {users.map((user) => (
-            <User key={user.id} user={user} />
-          ))}
+  return (
+    <div>
+      <h1>List of users:</h1>
+      {users.map((user) => (
+        <div className="users-container" key={user.id}>
+          <Link to={`${user.id}`}>{user.name}</Link>
         </div>
-      </div>
-    );
-  };
-
-  return <div>{isLoading ? <LoadingComponent /> : <UsersComponent />}</div>;
+      ))}
+    </div>
+  );
 };
 
 export default Users;
