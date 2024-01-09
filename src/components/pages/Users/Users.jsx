@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Styles.css";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../context/UserContextInfo";
 
 const Users = () => {
+  const data = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getUsers = async () => {
-      try {
-        const res = await fetch("https://jsonplaceholder.typicode.com/users");
+      if (data.isAuth) {
+        try {
+          const res = await fetch("https://jsonplaceholder.typicode.com/users");
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          const data = await res.json();
+
+          setUsers(data);
+
+          setIsLoading(false);
+        } catch (e) {
+          console.error("error", e.message);
         }
-
-        const data = await res.json();
-
-        setUsers(data);
-
-        setIsLoading(false);
-      } catch (e) {
-        console.error("error", e.message);
       }
     };
 
     getUsers();
-  }, []);
+  }, [data.isAuth]);
 
   if (isLoading) {
     return <h1>Loading ...</h1>;

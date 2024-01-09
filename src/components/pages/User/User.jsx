@@ -1,35 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Styles.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { UserContext } from "../../../context/UserContextInfo";
 
 const User = () => {
+  const data = useContext(UserContext);
   const params = useParams();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getUser = async () => {
-      try {
-        const res = await fetch(
-          `https://jsonplaceholder.typicode.com/users/${params.id}`,
-        );
+      if (data.isAuth) {
+        try {
+          const res = await fetch(
+            `https://jsonplaceholder.typicode.com/users/${params.id}`,
+          );
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          const data = await res.json();
+
+          setUser(data);
+
+          setIsLoading(false);
+        } catch (e) {
+          console.error("error", e.message);
         }
-
-        const data = await res.json();
-
-        setUser(data);
-
-        setIsLoading(false);
-      } catch (e) {
-        console.error("error", e.message);
       }
     };
 
     getUser();
-  }, [params.id]);
+  }, [params.id, data.isAuth]);
 
   const { name, phone, email } = user;
 
